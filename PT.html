@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Paper Trading</title>
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+}
+h1 {
+    font-family: Times New Roman;
+    text-align: center;
+    margin-top: 30px;
+    color: #333;
+}
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 36px auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+th, td {
+    border: 1px solid #e0e0e0;
+    padding: 12px 15px;
+    text-align: center;
+}
+th {
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+}
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+.buy-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+.buy-btn:hover {
+    background-color: #218838;
+}
+.sell-btn {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+.sell-btn:hover {
+    background-color: #c82333;
+}
+.profit {
+    color: #28a745;
+    font-weight: 600;
+}
+.loss {
+    color: #dc3545;
+    font-weight: 600;
+}
+.quantity-input {
+    width: 60px;
+    padding: 6px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+}
+#portfolioTable th{
+    background-color: #6c757d;
+}
+.user-info {
+    text-align: right;
+    padding: 10px 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e0e0e0;
+}
+.user-info .username {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.logout-btn {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.logout-btn:hover {
+    background-color: #5a6268;
+}
+</style>
+</head>
+<body>
+
+<div class="user-info">
+    <span class="username" id="currentUsername">Guest</span>
+    <button class="logout-btn" onclick="logout()">Logout</button>
+</div>
+
+<h1>Paper Trading Platform</h1>
+
+<table id="stockTable">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Current Price</th>
+            <th>Quantity</th>
+            <th>Buy</th>
+            <th>Sell</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr id="stock1">
+            <td>AAPL</td>
+            <td id="priceAAPL">150.00</td>
+            <td><input type="number" id="qtyAAPL" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('AAPL')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('AAPL')">Sell</button></td>
+        </tr>
+        <tr id="stock2">
+            <td>GOOG</td>
+            <td id="priceGOOG">2700.00</td>
+            <td><input type="number" id="qtyGOOG" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('GOOG')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('GOOG')">Sell</button></td>
+        </tr>
+        <tr id="stock3">
+            <td>MSFT</td>
+            <td id="priceMSFT">300.00</td>
+            <td><input type="number" id="qtyMSFT" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('MSFT')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('MSFT')">Sell</button></td>
+        </tr>
+        <tr id="stock4">
+            <td>AMZN</td>
+            <td id="priceAMZN">3500.00</td>
+            <td><input type="number" id="qtyAMZN" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('AMZN')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('AMZN')">Sell</button></td>
+        </tr>
+        <tr id="stock5">
+            <td>TSLA</td>
+            <td id="priceTSLA">700.00</td>
+            <td><input type="number" id="qtyTSLA" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('TSLA')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('TSLA')">Sell</button></td>
+        </tr>
+        <tr id="stock6">
+            <td>NVDA</td>
+            <td id="priceNVDA">500.00</td>
+            <td><input type="number" id="qtyNVDA" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('NVDA')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('NVDA')">Sell</button></td>
+        </tr>
+        <tr id="stock7">
+            <td>META</td>
+            <td id="priceMETA">200.00</td>
+            <td><input type="number" id="qtyMETA" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('META')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('META')">Sell</button></td>
+        </tr>
+        <tr id="stock8">
+            <td>NFLX</td>
+            <td id="priceNFLX">600.00</td>
+            <td><input type="number" id="qtyNFLX" class="quantity-input" value="1"></td>
+            <td><button class="buy-btn" onclick="buyStock('NFLX')">Buy</button></td>
+            <td><button class="sell-btn" onclick="sellStock('NFLX')">Sell</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>Portfolio</h1>
+<table id="portfolioTable">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Shares</th>
+            <th>Average Buy Price</th>
+            <th>Total Price</th>
+            <th>Profit/Loss (%)</th>
+        </tr>
+    </thead>
+    <tbody id="portfolioBody">
+    </tbody>
+</table>
+
+<script>
+// Check if user is logged in
+window.onload = function() {
+    const currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert("Please login first!");
+        window.location.href = "login.html";
+    } else {
+        document.getElementById('currentUsername').textContent = currentUser.username;
+    }
+}
+
+function logout() {
+    sessionStorage.removeItem('currentUser');
+    window.location.href = "index.html";
+}
+
+let portfolio = {
+    AAPL: { boughtPrice: 0, shares: 0, totalBought:0 },
+    GOOG: { boughtPrice: 0, shares: 0, totalBought:0 },
+    MSFT: { boughtPrice: 0, shares: 0, totalBought:0 },
+    AMZN: { boughtPrice: 0, shares: 0, totalBought:0 },
+    TSLA: { boughtPrice: 0, shares: 0, totalBought:0 },
+    NVDA: { boughtPrice: 0, shares: 0, totalBought:0 },
+    META: { boughtPrice: 0, shares: 0, totalBought:0 },
+    NFLX: { boughtPrice: 0, shares: 0, totalBought:0 }
+};
+
+function buyStock(symbol) {
+    let currentPrice = parseFloat(document.getElementById("price" + symbol).textContent);
+    let quantity = parseInt(document.getElementById("qty" + symbol).value);
+
+    if (quantity <= 0) {
+        alert("Quantity must be greater than 0.");
+        return;
+    }
+
+    portfolio[symbol].totalBought += currentPrice * quantity;
+    portfolio[symbol].shares += quantity;
+    portfolio[symbol].boughtPrice = portfolio[symbol].totalBought / portfolio[symbol].shares;
+
+    updatePortfolioTable();
+    console.log(`Bought ${quantity} shares of ${symbol} at ${currentPrice}`);
+}
+
+function sellStock(symbol) {
+    let currentPrice = parseFloat(document.getElementById("price" + symbol).textContent);
+    let quantity = parseInt(document.getElementById("qty" + symbol).value);
+
+    if (quantity <= 0) {
+        alert("Quantity must be greater than 0.");
+        return;
+    }
+
+    if (portfolio[symbol].shares >= quantity) {
+        portfolio[symbol].shares -= quantity;
+        portfolio[symbol].totalBought = portfolio[symbol].boughtPrice * portfolio[symbol].shares;
+        if(portfolio[symbol].shares === 0){
+            portfolio[symbol].boughtPrice = 0;
+        }
+        updatePortfolioTable();
+        console.log(`Sold ${quantity} shares of ${symbol} at ${currentPrice}`);
+    } else {
+        alert(`You don't have enough shares of ${symbol} to sell.`);
+    }
+}
+
+function updatePortfolioTable() {
+    let portfolioBody = document.getElementById("portfolioBody");
+    portfolioBody.innerHTML = "";
+
+    for (let symbol in portfolio) {
+        if (portfolio[symbol].shares > 0) {
+            let row = portfolioBody.insertRow();
+            let cell1 = row.insertCell(0);
+            let cell2 = row.insertCell(1);
+            let cell3 = row.insertCell(2);
+            let cell4 = row.insertCell(3);
+            let cell5 = row.insertCell(4);
+
+            let currentPrice = parseFloat(document.getElementById("price" + symbol).textContent);
+            let boughtPrice = portfolio[symbol].boughtPrice;
+            let totalBought = portfolio[symbol].totalBought;
+            let profitLossPercentage = ((currentPrice - boughtPrice) / boughtPrice) * 100;
+
+            cell1.textContent = symbol;
+            cell2.textContent = portfolio[symbol].shares;
+            cell3.textContent = portfolio[symbol].boughtPrice.toFixed(2);
+            cell4.textContent = totalBought.toFixed(2);
+           cell5.textContent = profitLossPercentage.toFixed(2) + "%";
+
+            if (profitLossPercentage > 0) {
+                cell5.className = "profit";
+            } else if (profitLossPercentage < 0) {
+                cell5.className = "loss";
+            } else {
+                cell5.className = "";
+            }
+        }
+    }
+}
+
+setInterval(function() {
+    document.getElementById("priceAAPL").textContent = (1500 + (Math.random() * 20 - 10)).toFixed(2);
+    document.getElementById("priceGOOG").textContent = (2700 + (Math.random() * 200 - 100)).toFixed(2);
+    document.getElementById("priceMSFT").textContent = (300 + (Math.random() * 20 - 10)).toFixed(2);
+    document.getElementById("priceAMZN").textContent = (3500 + (Math.random() * 200 - 100)).toFixed(2);
+    document.getElementById("priceTSLA").textContent = (700 + (Math.random() * 200 - 100)).toFixed(2);
+    document.getElementById("priceNVDA").textContent = (500 + (Math.random() * 20 - 10)).toFixed(2);
+    document.getElementById("priceMETA").textContent = (200 + (Math.random() * 20 - 10)).toFixed(2);
+    document.getElementById("priceNFLX").textContent = (600 + (Math.random() * 20 - 10)).toFixed(2);
+        
+    updatePortfolioTable();
+}, 3000);
+
+updatePortfolioTable();
+</script>
+
+</body>
+</html>
